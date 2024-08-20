@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>PostList</title>
+    <title>게시판 목록</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 <body>
-postList
+<h1>게시판 목록</h1>
+<button type="button" onclick="location.href='/boards/new';">글 작성</button>
+<table>
+    <thead>
+    <tr>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>카테고리</th>
+        <th>작성일</th>
+        <th>조회수</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board : ${boards}">
+        <td>
+            <a th:href="@{/boards/{id}(id=${board.id})}" th:text="${board.title}"></a>
+        </td>
+        <td th:text="${board.author}"></td>
+        <td th:text="${board.category}"></td>
+        <td th:text="${#dates.format(board.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${board.viewCount}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

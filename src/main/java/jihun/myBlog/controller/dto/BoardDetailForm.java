@@ -22,11 +22,11 @@ public class BoardDetailForm {
 
     private String content;
 
-    private Member author;
+//    private Member author;
 
     private Category category;
 
-    private long viewCount;
+//    private long viewCount;
 
     private LocalDateTime createdAt;
 

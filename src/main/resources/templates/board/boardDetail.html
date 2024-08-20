@@ -1,10 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>게시물 상세보기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .info {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        .content {
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .buttons button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-
+<div class="container">
+    <div class="title" th:text="${board.title}">제목이 들어갑니다</div>
+    <div class="info">
+        작성자: <span th:text="${board.author.nickName}">작성자 이름</span> |
+        카테고리: <span th:text="${board.category.name}">카테고리</span> |
+        조회수: <span th:text="${board.viewCount}">0</span> |
+        작성일: <span th:text="${#dates.format(board.createdAt, 'yyyy-MM-dd HH:mm:ss')}">2024-08-19 00:00:00</span>
+    </div>
+    <div class="content" th:text="${board.content}">
+        여기에 게시물 내용이 표시됩니다.
+    </div>
+    <div class="buttons">
+        <button type="button" onclick="location.href='/boards';">목록으로</button>
+        <button type="button" th:onclick="'location.href=\'/boards/' + ${board.id} + '/edit\''">수정</button>
+        <form th:action="@{/boards/{id}(id=${board.id})}" method="post" style="display:inline;">
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit" style="background-color: #f44336;">삭제</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

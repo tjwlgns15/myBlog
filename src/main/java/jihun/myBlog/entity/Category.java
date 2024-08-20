@@ -1,6 +1,7 @@
 package jihun.myBlog.entity;
 
 import jakarta.persistence.*;
+import jihun.myBlog.controller.dto.CategoryEditForm;
 import jihun.myBlog.global.entity.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,4 +26,9 @@ public class Category extends BaseTimeEntity {
 
     @Column(length = 500)
     private String description;
+
+    public void updateCategory(CategoryEditForm form) {
+        this.name = form.getName();
+        this.description = form.getDescription();
+    }
 }

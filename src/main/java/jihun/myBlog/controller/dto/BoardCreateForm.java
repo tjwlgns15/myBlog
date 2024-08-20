@@ -6,8 +6,10 @@ import jihun.myBlog.entity.Category;
 import jihun.myBlog.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class BoardCreateForm {
 
     @NotEmpty(message = "필수 입력 사항입니다.")
@@ -16,5 +18,5 @@ public class BoardCreateForm {
     @NotEmpty(message = "필수 입력 사항입니다.")
     private String content;
 
-    private Category category;
+    private Long categoryId;
 }

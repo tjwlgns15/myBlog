@@ -15,6 +15,7 @@ public enum ErrorCode {
     TOKEN_EXPIRED(SC_BAD_REQUEST, "로그인 기간이 만료되었습니다. 다시 로그인 해주세요."),
 
     BOARD_NOT_FOUND(SC_NOT_FOUND, "게시글을 찾을 수 없습니다."),
+    CATEGORY_NOT_FOUND(SC_NOT_FOUND, "카테고리를 찾을 수 없습니다."),
     ;
 
     private final int code;

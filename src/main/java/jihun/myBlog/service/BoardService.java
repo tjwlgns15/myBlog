@@ -3,6 +3,7 @@ package jihun.myBlog.service;
 import jihun.myBlog.controller.dto.BoardCreateForm;
 import jihun.myBlog.controller.dto.BoardEditForm;
 import jihun.myBlog.entity.Board;
+import jihun.myBlog.entity.Category;
 import jihun.myBlog.exception.CustomException;
 import jihun.myBlog.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import static jihun.myBlog.exception.ErrorCode.BOARD_NOT_FOUND;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final CategoryService categoryService;
 
     public List<Board> findBoards() {
         return boardRepository.findAll();
@@ -26,12 +28,14 @@ public class BoardService {
 
     public Long saveBoard(BoardCreateForm form) {
 
+        Category category = categoryService.findCategory(form.getCategoryId());
+
         // todo: 현재 로그인 정보, 조회수(중복 방지)
         Board board = Board.builder()
                 .title(form.getTitle())
                 .content(form.getContent())
 //                .author()
-                .category(form.getCategory())
+                .category(category)
 //                .viewCount()
                 .build();
 
@@ -49,7 +53,7 @@ public class BoardService {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new CustomException(BOARD_NOT_FOUND)
         );
-        board.updateBoard(form.getTitle(), form.getContent(), form.getCategory());
+        board.updateBoard(form);
     }
 
     public void deleteBoard(Long id) {

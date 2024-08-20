@@ -22,3 +22,12 @@ spring:
 
 jwt:
   key: eyJzdWIiOiJzaW1wbGVHYW1lIiwibmFtZSI6ImppaHVuIiwiaWF0IjoxNTE2MjM5MDIyfQ
+
+kakao:
+  client_id: 97b20e581bd0aea5b4eb7fc2edb7b2d5
+  redirect_uri: http://localhost:8080/callback
+  logout_redirect_uri: http://localhost:8080/logout
+
+#kakao2:
+#  api_key: "xxx"  # API Key
+#  redirect_uri: "http://localhost:8080/login/oauth2/code/kakao"  # Redirect URI
