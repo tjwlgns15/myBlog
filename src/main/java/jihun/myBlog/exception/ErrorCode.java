@@ -16,6 +16,7 @@ public enum ErrorCode {
 
     BOARD_NOT_FOUND(SC_NOT_FOUND, "게시글을 찾을 수 없습니다."),
     CATEGORY_NOT_FOUND(SC_NOT_FOUND, "카테고리를 찾을 수 없습니다."),
+    USER_NOT_FOUND(SC_NOT_FOUND, "존재하지 않는 회원입니다."),
     ;
 
     private final int code;

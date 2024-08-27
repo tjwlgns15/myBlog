@@ -1,6 +1,6 @@
 package jihun.myBlog.entity;
 
 public enum Role {
-    User,
+    USER,
     ADMIN
 }

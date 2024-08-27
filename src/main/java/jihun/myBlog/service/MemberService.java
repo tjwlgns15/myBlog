@@ -1,47 +1,94 @@
 package jihun.myBlog.service;
 
-import jihun.myBlog.controller.dto.MemberCreateForm;
+import jihun.myBlog.controller.dto.JoinRequest;
+import jihun.myBlog.controller.dto.LoginRequest;
 import jihun.myBlog.entity.Member;
 import jihun.myBlog.exception.CustomException;
+import jihun.myBlog.exception.ErrorCode;
 import jihun.myBlog.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import static jihun.myBlog.exception.ErrorCode.ALREADY_EXISTS_NICKNAME;
-import static jihun.myBlog.exception.ErrorCode.ALREADY_EXISTS_USERNAME;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
+
 public class MemberService {
 
-    private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final MemberRepository memberRepository
+            ;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
+    /**
+     * 회원가입
+     * 암호화 x
+     */
+    public void join(JoinRequest req) {
+        memberRepository.save(req.toEntity());
+    }
 
-    @Transactional
-    public void join(MemberCreateForm form) {
-        // 중복 회원 검증
-        if (memberRepository.existsByUsername(form.getUsername())) {
-            throw new CustomException(ALREADY_EXISTS_USERNAME);
+    /**
+     * 회원가입2
+     * 암호화 o
+     */
+    public void join2(JoinRequest req) {
+        memberRepository.save(req.toEntity(passwordEncoder.encode(req.getPassword())));
+    }
+
+    /**
+     *  로그인
+     *  loginId 유무 확인, password 일치 확인
+     *  불일치 유저 loginId 로그 출력
+     */
+    public Member login(LoginRequest req) {
+        Member user = memberRepository.findByLoginId(req.getLoginId()).orElseThrow(
+                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
+        );
+
+        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+            log.info("[Password Mismatch] {}", req.getLoginId());
+            return null;
         }
-        if (memberRepository.existsByNickName(form.getNickName())) {
-            throw new CustomException(ALREADY_EXISTS_NICKNAME);
-        }
+        return user;
+    }
 
-        // 비밀번호 암호화
-        String encodedPassword = passwordEncoder.encode(form.getPassword());
+    /**
+     * loginId 중복 체크
+     */
+    public boolean checkLoginIdDuplicate(String loginId) {
+        return memberRepository.existsByLoginId(loginId);
+    }
 
-        Member member = Member.builder()
-                .username(form.getUsername())
-                .password(encodedPassword)
-                .nickName(form.getNickName())
-                .phoneNumber(form.getPhoneNumber())
-                .gender(form.getGender())
-                .birthday(form.getBirthday())
-                .build();
+    /**
+     * nickname 중복 체크
+     */
+    public boolean checkNicknameDuplicate(String nickname) {
+        return memberRepository.existsByNickname(nickname);
+    }
 
-        memberRepository.save(member);
+    /**
+     * loginId로 유저 정보 찾기
+     */
+    public Member getLoginUserByLoginId(String loginId) {
+        return memberRepository.findByLoginId(loginId).orElseThrow(
+                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
+        );
+    }
+
+    /**
+     * 인증시 사용
+     * userId(Long)를 입력받아 User 리턴
+     * 비로그인(null) 또는 올바른 유저인지 확인
+     */
+    public Member getLoginUserById(Long userId) {
+
+        if (userId == null) return null;
+        return memberRepository.findById(userId).orElseThrow(
+                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
+        );
     }
 }
