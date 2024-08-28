@@ -1,10 +1,10 @@
 package jihun.myBlog.service;
 
-import jihun.myBlog.controller.dto.JoinRequest;
-import jihun.myBlog.controller.dto.LoginRequest;
+import jihun.myBlog.dto.auth.JoinRequest;
+import jihun.myBlog.dto.auth.LoginRequest;
 import jihun.myBlog.entity.Member;
-import jihun.myBlog.exception.CustomException;
-import jihun.myBlog.exception.ErrorCode;
+import jihun.myBlog.global.exception.CustomException;
+import jihun.myBlog.global.exception.ErrorCode;
 import jihun.myBlog.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

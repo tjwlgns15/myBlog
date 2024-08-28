@@ -2,8 +2,8 @@ package jihun.myBlog.controller;
 
 import jakarta.validation.Valid;
 import jihun.myBlog.auth.JwtTokenUtil;
-import jihun.myBlog.controller.dto.JoinRequest;
-import jihun.myBlog.controller.dto.LoginRequest;
+import jihun.myBlog.dto.auth.JoinRequest;
+import jihun.myBlog.dto.auth.LoginRequest;
 import jihun.myBlog.entity.Member;
 import jihun.myBlog.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String join(@RequestBody @Valid JoinRequest joinRequest, BindingResult result) {
+    public String join(@ModelAttribute @Valid JoinRequest joinRequest, BindingResult result) {
         log.info("join request: {}", joinRequest);
 
         if (result.hasErrors()) {
@@ -56,12 +56,12 @@ public class MemberController {
         if(memberService.checkNicknameDuplicate(joinRequest.getNickname())) {
             return "닉네임이 중복됩니다.";
         }
-        // password와 passwordCheck가 같은지 체크
+        // password, passwordCheck 같은지 체크
         if(!joinRequest.getPassword().equals(joinRequest.getPasswordCheck())) {
             return "바밀번호가 일치하지 않습니다.";
         }
         memberService.join2(joinRequest);
-        return "redirect:/login";
+        return "redirect:/api/auth/login";
     }
 
     @GetMapping("/login")
@@ -71,7 +71,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<String> login(@ModelAttribute LoginRequest loginRequest) {
         log.info("login request: {}", loginRequest);
         Member user = memberService.login(loginRequest);
         /**

@@ -30,14 +30,13 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/auth/join").permitAll();
-                    auth.requestMatchers("/api/auth/login").permitAll();
-//                    auth.requestMatchers("/api/auth/info").authenticated();
-                    auth.requestMatchers("/api/auth/admin/**").hasAuthority(Role.ADMIN.name());
-                })
+//                .authorizeHttpRequests(auth -> {
+//                    auth.requestMatchers("/api/auth/join").permitAll();
+//                    auth.requestMatchers("/api/auth/login").permitAll();
+////                    auth.requestMatchers("/api/auth/info").authenticated();
+//                    auth.requestMatchers("/api/auth/admin/**").hasAuthority(Role.ADMIN.name());
+//                })
                 .addFilterBefore(new JwtTokenFilter(memberService, secretKey), UsernamePasswordAuthenticationFilter.class)
-
                 .build();
     }
 }

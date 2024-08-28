@@ -1,14 +1,12 @@
 package jihun.myBlog.entity;
 
 import jakarta.persistence.*;
-import jihun.myBlog.controller.dto.CategoryEditForm;
+import jihun.myBlog.dto.category.EditCategoryRequest;
 import jihun.myBlog.global.entity.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.EqualsAndHashCode;
 
 @Entity
 @Getter
@@ -21,14 +19,11 @@ public class Category extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(length = 500)
-    private String description;
 
-    public void updateCategory(CategoryEditForm form) {
+    public void updateCategory(EditCategoryRequest form) {
         this.name = form.getName();
-        this.description = form.getDescription();
     }
 }

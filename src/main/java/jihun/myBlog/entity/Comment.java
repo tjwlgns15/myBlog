@@ -1,6 +1,7 @@
 package jihun.myBlog.entity;
 
 import jakarta.persistence.*;
+import jihun.myBlog.dto.comment.EditCommentRequest;
 import jihun.myBlog.global.entity.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,15 +22,18 @@ public class Comment extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String content;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id", nullable = false)
-    private Board board;
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private Member author;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String content;
-
+    public void update(EditCommentRequest request) {
+        this.content = request.getContent();
+    }
 }
