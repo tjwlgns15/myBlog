@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+
+<head th:replace="fragments/header :: header">
+    <title>myBlog main</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+<div class="container">
+
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+
+    <div class="post-container">
+        <div class="post-title">
+            <h4>Category Name</h4>
+        </div>
+        <div class="post-list">
+            post
+            <div th:each="post : ${posts}" class="post">
+                <a th:text="${post.title}" class="post-title">post title</a>
+                <div class="date-and-category-and-author">
+                    <img src="" alt="">
+                    <a th:text="${post.createdAt}" class="date">date</a>
+                    <img src="" alt="">
+                    <a th:text="${post.category}" class="category">category</a>
+                    <img src="" alt="">
+                    <a th:text="${post.author}" class="author">author</a>
+                </div>
+                <div th:text="${post.content}" class="summary">summary</div>
+            </div>
+        </div>
+        <div class="paging">paging</div>
+    </div>
+
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

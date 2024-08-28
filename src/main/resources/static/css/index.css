@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'PTBandocheB';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408@1.0/PTBandocheB.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+body {
+    font-family: 'PTBandocheB', sans-serif;
+    -webkit-user-select: none;
+    background-color: rgb(30,30,30);
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    margin: 0 auto;
+}

@@ -27,6 +27,6 @@ public class HelloController {
 
         List<PostResponse> posts = postService.findPosts();
         model.addAttribute("posts", posts);
-        return "index";
+        return "test";
     }
 }
