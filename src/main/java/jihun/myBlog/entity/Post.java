@@ -12,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -39,7 +41,6 @@ public class Post extends BaseTimeEntity {
 
     @Column(nullable = false)
     private Long viewCount;
-
 
     public void updatePost(EditPostRequest form, Category category) {
         this.title = form.getTitle();

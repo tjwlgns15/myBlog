@@ -1,40 +1,76 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 
-<head th:replace="fragments/header :: header">
-    <title>myBlog main</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
+<head th:replace="~{fragments/header :: header}"></head>
 
 <body>
 <div class="container">
 
-    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <div th:replace="~{fragments/bodySidebar :: bodySidebar}"></div>
 
     <div class="post-container">
-        <div class="post-title">
-            <h4>Category Name</h4>
+        <div class="search-box">
+            <div class="post-title">
+                <h1 th:text="${categoryName}">Category Name</h1>
+
+            </div>
+
+            <div class="search-form-container">
+                <form id="searchForm" class="searchForm">
+                    <label for="searchInput"></label>
+                    <input type="text" id="searchInput" placeholder="검색어를 입력하세요.">
+                    <button type="submit" style="display: none;">검색</button>
+                    <img src="/images/search.png" alt="검색" onclick="document.getElementById('searchForm').submit();" style="cursor: pointer;">
+                </form>
+            </div>
         </div>
+
+
         <div class="post-list">
-            post
             <div th:each="post : ${posts}" class="post">
-                <a th:text="${post.title}" class="post-title">post title</a>
+                <a th:text="${post.title}" th:href="@{/post/{id}(id=${post.id})}" class="post-title">post title</a>
+
                 <div class="date-and-category-and-author">
-                    <img src="" alt="">
-                    <a th:text="${post.createdAt}" class="date">date</a>
-                    <img src="" alt="">
-                    <a th:text="${post.category}" class="category">category</a>
-                    <img src="" alt="">
-                    <a th:text="${post.author}" class="author">author</a>
+                    <div class="info-item">
+                        <img src="/images/calendar.png" alt="작성일">
+                        <a th:text="${post.formattedCreatedAt}">date</a>
+                    </div>
+                    <div class="info-item">
+                        <img src="/images/category.png" alt="카테고리">
+                        <a th:text="${post.category}">category</a>
+                    </div>
+                    <div class="info-item">
+                        <img src="/images/writer.png" alt="작성자">
+                        <a th:text="${post.author}">author</a>
+                    </div>
                 </div>
+
                 <div th:text="${post.content}" class="summary">summary</div>
             </div>
         </div>
-        <div class="paging">paging</div>
-    </div>
 
+        <div class="paging">
+            <ul class="pagination" th:if="${posts.totalPages > 1}">
+                <li th:classappend="${!posts.hasPrevious()} ? 'disabled'">
+                    <a th:if="${posts.hasPrevious()}" th:href="@{/(page=${posts.number - 1})}">« Previous</a>
+                    <span th:unless="${posts.hasPrevious()}">« Previous</span>
+                </li>
+
+                <li th:each="pageNumber : ${#numbers.sequence(0, posts.totalPages - 1)}"
+                    th:classappend="${pageNumber == posts.number} ? 'active'">
+                    <a th:href="@{/(page=${pageNumber})}" th:text="${pageNumber + 1}">1</a>
+                </li>
+
+                <li th:classappend="${!posts.hasNext()} ? 'disabled'">
+                    <a th:if="${posts.hasNext()}" th:href="@{/(page=${posts.number + 1})}">Next »</a>
+                    <span th:unless="${posts.hasNext()}">Next »</span>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
-<div th:replace="fragments/footer :: footer"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 
 </body>
 </html>

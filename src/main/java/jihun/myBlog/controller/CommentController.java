@@ -22,11 +22,11 @@ public class CommentController {
     public String createComment(@ModelAttribute @Valid CreateCommentRequest request, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-
+            log.info("[Error] fail to create comment: {}", bindingResult.getAllErrors());
+            return "redirect:/post/" + request.getPostId();
         }
         commentService.savaComment(request);
-        Long postId = request.getPostId();
-        return "redirect:/post/" + postId;
+        return "redirect:/post/" + request.getPostId();
     }
 
     // 댓글 수정
@@ -34,18 +34,19 @@ public class CommentController {
     public String editComment(@PathVariable Long id, @ModelAttribute @Valid EditCommentRequest request, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-
+            log.info("[Error] fail to edit comment: {}", bindingResult.getAllErrors());
+            return "redirect:/post/" + request.getPostId();
         }
         commentService.updateComment(id, request);
-        Long postId = request.getPostId();
-        return "redirect:/post/" + postId;
+        return "redirect:/post/" + request.getPostId();
     }
 
     // 댓글 삭제
     @DeleteMapping("/{id}")
     public String deleteComment(@PathVariable Long id) {
+        Long postId = commentService.findCommentById(id).getPost().getId();
         commentService.deleteComment(id);
-        return "redirect:/";
+        return "redirect:/post/" + postId;
 
     }
 }

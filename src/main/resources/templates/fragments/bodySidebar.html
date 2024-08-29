@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="sidebar" th:fragment="bodySidebar">
+    <div class="profile">
+        <h2>myBlog</h2>
+        <img src="/images/black.png" alt="profile">
+        <h3>hunee</h3>
+    </div>
+
+    <div class="category-list">
+        <h1>
+            <span style="display: inline-block; transform: rotate(90deg);">!!!</span>
+            Category
+        </h1>
+        <div th:each="category : ${categories}" class="category">
+            <a class="bullet-mark">● </a>
+            <a th:text="${category.name}" th:href="@{'/?categoryId=' + ${category.id}}">category</a>
+        </div>
+    </div>
+</div>

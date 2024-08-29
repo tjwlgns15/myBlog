@@ -47,7 +47,7 @@ public class PostController {
     public String createForm(Model model) {
         model.addAttribute("createPostRequest", new CreatePostRequest());
 
-        List<CategoryResponse> categoryResponse = categoryService.findCategories();
+        List<CategoryResponse> categoryResponse = categoryService.findAllCategories();
         model.addAttribute("categoryResponse", categoryResponse);
         return "/post/postCreate";
     }

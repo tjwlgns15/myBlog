@@ -34,7 +34,7 @@ public class CategoryService {
         return categoryRepository.save(category).getId();
     }
 
-    public List<CategoryResponse> findCategories() {
+    public List<CategoryResponse> findAllCategories() {
         List<Category> categories = categoryRepository.findAll();
         return categories.stream()
                 .map(category -> CategoryResponse.builder()
@@ -44,10 +44,16 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
-    public Category findCategory(Long id) {
-        return categoryRepository.findById(id).orElseThrow(
+    // 쓸 일 있나?
+    public CategoryResponse findCategory(Long id) {
+        Category category = categoryRepository.findById(id).orElseThrow(
                 () -> new CustomException(CATEGORY_NOT_FOUND)
         );
+
+        return CategoryResponse.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .build();
     }
 
     @Transactional

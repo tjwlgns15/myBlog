@@ -50,7 +50,7 @@
 <body>
 <div class="container">
     <h1>게시물 작성</h1>
-    <form th:action="@{/boards/new}" th:object="${boardCreateForm}" method="post">
+    <form th:action="@{/boards/new}" th:object="${createPostRequest}" method="post">
         <div class="form-group">
             <label for="title">제목</label>
             <input type="text" id="title" th:field="*{title}" placeholder="제목을 입력하세요">
@@ -65,7 +65,7 @@
             <label for="category">카테고리</label>
             <select id="category" th:field="*{categoryId}">
                 <option value="" disabled selected>카테고리를 선택하세요</option>
-                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                <option th:each="category : ${categoryResponse}" th:value="${category.id}" th:text="${category.name}"></option>
             </select>
         </div>
 
