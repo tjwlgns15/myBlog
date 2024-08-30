@@ -46,7 +46,6 @@ public class HelloController {
         model.addAttribute("posts", postPage);
         model.addAttribute("categoryName", categoryName);
 
-
-        return "test";
+        return "index";
     }
 }

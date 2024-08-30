@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,7 +30,7 @@ public class CategoryController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<?> createCategory(@Valid @ModelAttribute CreateCategoryRequest form, BindingResult result) {
+    public ResponseEntity<?> createCategory(@Valid @RequestBody CreateCategoryRequest form, BindingResult result) {
 
         if (result.hasErrors()) {
             List<String> errorMessages = result.getAllErrors().stream()
@@ -37,7 +39,12 @@ public class CategoryController {
             return ResponseEntity.badRequest().body(errorMessages);
         }
         Long categoryId = categoryService.saveCategory(form);
-        return ResponseEntity.ok("카테고리 등록이 완료되었습니다. ID: " + categoryId);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "카테고리 등록이 완료되었습니다. ID: " + categoryId);
+        log.info(response.toString());
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")

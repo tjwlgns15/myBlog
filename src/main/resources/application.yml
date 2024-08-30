@@ -18,7 +18,6 @@ spring:
     restart:
       enabled: false
 
-
 jwt:
   key: eyJzdWIiOiJzaW1wbGVHYW1lIiwibmFtZSI6ImppaHVuIiwiaWF0IjoxNTE2MjM5MDIyfQ
   expiration: 3600000

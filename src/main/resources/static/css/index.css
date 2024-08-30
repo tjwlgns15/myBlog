@@ -61,6 +61,63 @@ body {
     padding: 20px;
 }
 
+.category-header {
+    display: flex;
+    align-items: center;
+}
+
+.add-category-btn {
+    margin-left: 5px;
+    padding-top: 3px;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 50%;
+    font-size: 1.4em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 0.9em;
+    height: 0.9em;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.modal-content button {
+    padding: 10px 20px;
+    margin-right: 10px;
+}
+
 .category-list .category {
     display: flex;
     padding: 0 0 0 20px;
@@ -202,6 +259,26 @@ body {
 .paging ul li a:hover {
     background-color: rgb(100, 100, 120);
 
+}
+
+.fixed-link-new-post {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgb(100, 100, 120);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s; /* 배경색과 크기 변화에 대한 전환 효과 */
+    z-index: 1000;
+}
+
+.fixed-link-new-post:hover {
+    transform: scale(1.1); /* 살짝 확대 */
+    color: white;
 }
 
 .footer {

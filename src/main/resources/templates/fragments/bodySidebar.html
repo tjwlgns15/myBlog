@@ -9,13 +9,22 @@
     </div>
 
     <div class="category-list">
-        <h1>
-            <span style="display: inline-block; transform: rotate(90deg);">!!!</span>
-            Category
-        </h1>
+        <div class="category-header">
+            <h1>
+                <span style="display: inline-block; transform: rotate(90deg);">!!!</span>
+                Category
+            </h1>
+            <button id="addCategoryBtn" class="add-category-btn">+</button>
+
+        </div>
+
         <div th:each="category : ${categories}" class="category">
             <a class="bullet-mark">● </a>
             <a th:text="${category.name}" th:href="@{'/?categoryId=' + ${category.id}}">category</a>
         </div>
     </div>
+
+    <!-- Include the modal fragment -->
+    <div th:replace="~{fragments/categoryCreateModal :: addCategoryModal}"></div>
+
 </div>

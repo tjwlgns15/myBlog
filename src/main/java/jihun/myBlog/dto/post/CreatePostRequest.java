@@ -4,10 +4,12 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class CreatePostRequest {
 
     @NotEmpty(message = "필수 입력 사항입니다.")

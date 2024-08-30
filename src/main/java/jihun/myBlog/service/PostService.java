@@ -33,7 +33,10 @@ public class PostService {
         Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(
                 () -> new CustomException(CATEGORY_NOT_FOUND)
         );
-        Member member = memberRepository.findById(request.getAuthorId()).orElseThrow(
+//        Member member = memberRepository.findById(request.getAuthorId()).orElseThrow(
+//                () -> new CustomException(USER_NOT_FOUND)
+//        );
+        Member member = memberRepository.findById(1L).orElseThrow(
                 () -> new CustomException(USER_NOT_FOUND)
         );
 

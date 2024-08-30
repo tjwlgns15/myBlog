@@ -50,7 +50,7 @@
 <body>
 <div class="container">
     <h1>게시물 작성</h1>
-    <form th:action="@{/boards/new}" th:object="${createPostRequest}" method="post">
+    <form th:action="@{/post/new}" th:object="${createPostRequest}" method="post">
         <div class="form-group">
             <label for="title">제목</label>
             <input type="text" id="title" th:field="*{title}" placeholder="제목을 입력하세요">
@@ -71,7 +71,7 @@
 
         <div class="buttons">
             <button type="submit">작성하기</button>
-            <button type="button" onclick="location.href='/boards';">취소</button>
+            <button type="button" onclick="location.href='/';">취소</button>
         </div>
     </form>
 </div>

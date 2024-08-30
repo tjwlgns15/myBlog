@@ -19,5 +19,4 @@ public class EditPostRequest {
     private String content;
 
     private Long categoryId;
-
 }

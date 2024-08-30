@@ -46,7 +46,7 @@
 </head>
 <body>
 <div class="container">
-    <div class="title" th:text="${postResponse.title}">제목이 들어갑니다</div>
+    <div class="title" th:text="${postResponse.title}">제목</div>
     <div class="info">
         작성자: <span th:text="${postResponse.author}">작성자 이름</span> |
         카테고리: <span th:text="${postResponse.category}">카테고리</span> |
@@ -66,12 +66,35 @@
 
     <div class="buttons">
         <button type="button" onclick="location.href='/';">목록으로</button>
-        <button type="button" th:onclick="'location.href=\'/boards/' + ${postResponse.id} + '/edit\''">수정</button>
+        <button type="button" th:onclick="'location.href=\'/post/' + ${postResponse.id} + '/edit\''">수정</button>
         <form th:action="@{/post/{id}(id=${postResponse.id})}" method="post" style="display:inline;">
             <input type="hidden" name="_method" value="delete">
-            <button type="submit" style="background-color: #f44336;">삭제</button>
+            <button type="button" th:onclick="'deletePost(' + ${postResponse.id} + ')'" style="background-color: #f44336;">삭제</button>
+
         </form>
     </div>
 </div>
+<script>
+    function deletePost(id) {
+        if (confirm('정말로 이 게시물을 삭제하시겠습니까?')) {
+            fetch('/post/' + id, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(response => {
+                if (response.ok) {
+                    alert('게시물이 삭제되었습니다.');
+                    window.location.href = '/';
+                } else {
+                    alert('게시물 삭제에 실패했습니다.');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('게시물 삭제 중 오류가 발생했습니다.');
+            });
+        }
+    }
+</script>
 </body>
 </html>

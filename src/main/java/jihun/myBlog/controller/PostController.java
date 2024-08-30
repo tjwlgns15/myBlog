@@ -12,12 +12,15 @@ import jihun.myBlog.service.CommentService;
 import jihun.myBlog.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -55,6 +58,7 @@ public class PostController {
     // 작성
     @PostMapping("/new")
     public String createPost(@Valid @ModelAttribute CreatePostRequest request, BindingResult result) {
+        log.info("request: {}", request);
         if (result.hasErrors()) {
             log.info("[Error] fail to save post: {}",result.getAllErrors());
             return "/post/postCreate";
@@ -96,28 +100,33 @@ public class PostController {
                 .categoryId(post.getCategory().getId())
                 .build();
         model.addAttribute("editPostRequest", editPostRequest);
+
+        List<CategoryResponse> categories = categoryService.findAllCategories();
+        model.addAttribute("categories", categories);
         return "/post/postEdit";
     }
 
     // 수정
     @PutMapping("/{id}")
-    public String editPost(@PathVariable Long id, @ModelAttribute @Valid EditPostRequest request, BindingResult result) {
-        log.info("id: {}, request: {}", id, request);
-
+    public ResponseEntity<?> editPost(@PathVariable Long id, @ModelAttribute @Valid EditPostRequest request, BindingResult result) {
 
         if (result.hasErrors()) {
-            log.info("[Error] fail to edit post: {}",result.getAllErrors());
-            return "/post/postEdit";
+            log.info("[Error] fail to edit post: {}", result.getAllErrors());
+            return ResponseEntity.badRequest().body(result.getAllErrors());
         }
         postService.updatePost(id, request);
-        return "redirect:/post/" + id;
+        return ResponseEntity.ok().body(Map.of("id", id));
     }
 
-    // 삭제
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
-        postService.deletePost(id);
-        return "redirect:/";
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        log.info("delete: {}", id);
+        try {
+            postService.deletePost(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("게시물 삭제 중 오류가 발생했습니다.");
+        }
     }
 
 }
